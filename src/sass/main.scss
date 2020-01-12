@@ -1,0 +1,79 @@
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.btn {
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: .75rem 1.25rem;
+    color: #fff;
+    background-color: #AC557E;
+    border-radius: 3px;
+    transition: all 200ms;
+
+    &:hover {
+        background-color: #C23276;
+    }
+}
+
+.in {
+    outline: none;
+    border: none;
+    font-size: 1.5rem;
+    border-bottom: 1px solid #AC557E;
+}
+
+.icon-search {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    stroke-width: 0;
+    fill: #C23276;
+  }
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+    background-color: #c3c3c3;
+    padding: 4px 1rem;
+    margin-bottom: 1rem;
+
+    input {
+        display: none;
+    }
+}
+
+.main {
+    display: flex;
+    width: 90vw;
+    margin: 0 auto;
+}
+
+.edit-area {
+    display: flex;
+    flex-flow: column;
+    width: 75%;
+
+    &__menu {
+        display: flex;
+        width: 50%;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        a {
+            font-size: 1.25rem;
+        }
+    }
+}
+
