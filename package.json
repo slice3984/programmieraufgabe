@@ -1,0 +1,23 @@
+{
+  "name": "programmieraufgabe",
+  "version": "1.0.0",
+  "description": "Demo: https://slice.sh/aufgabe",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --no-minify -d public --public-url ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slice3984/programmieraufgabe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/slice3984/programmieraufgabe/issues"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^3.7.4"
+  }
+}
