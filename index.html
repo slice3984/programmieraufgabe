@@ -16,6 +16,10 @@
     <main class="main">
         <div class="edit-area">
             <div class="edit-area__menu">
+                <div class="page">
+                    <h1 id="prev-page"></h1>
+                    <a href="" class="btn hide" id="prev">&larr;</a>
+                </div>
                 <div class="">
                     <label for="search">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" class="icon-search" width="32" height="32" viewBox="0 0 32 32">
@@ -24,8 +28,12 @@
                             </svg>
                     </label>
                     <input type="text" class="in" id="search" placeholder="Art, Material...">
+                    <a id="export" class="btn">Exportieren</a>
                 </div>
-                <a id="export" class="btn">Exportieren</a>
+                <div class="page">
+                    <a href="" class="btn hide" id="next">&rarr;</a>
+                    <h1 id="next-page"></h1>
+                </div>
             </div>
             <div class="edit-area__content">
 

@@ -1,7 +1,7 @@
 
 export class Table {
     private static contentClass = '.edit-area__content';
-    private static resultsPerPage = 15;
+    static resultsPerPage = 15;
 
     private constructor() {}
 

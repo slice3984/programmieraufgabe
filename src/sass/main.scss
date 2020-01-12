@@ -67,7 +67,7 @@ html {
 
     &__menu {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         font-size: 1.5rem;
         margin-bottom: 1rem;
@@ -75,6 +75,22 @@ html {
             margin-left: 1rem;
             font-size: 1.25rem;
         }
+    }
+
+    .page {
+        display: flex;
+        padding: 0 1rem;
+        h1 {
+            color: #C23276;   
+        }
+
+        a {
+            margin: 0 1rem;
+        }
+    }
+
+    .hide {
+        opacity: 0;
     }
 
     &__content {
