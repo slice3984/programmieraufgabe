@@ -55,24 +55,49 @@ html {
 
 .main {
     display: flex;
-    width: 90vw;
+    flex-flow: column;
+    padding: 1rem;
     margin: 0 auto;
 }
 
 .edit-area {
     display: flex;
     flex-flow: column;
-    width: 75%;
+    width: 100%;
 
     &__menu {
         display: flex;
-        width: 50%;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         font-size: 1.5rem;
         margin-bottom: 1rem;
         a {
+            margin-left: 1rem;
             font-size: 1.25rem;
+        }
+    }
+
+    &__content {
+        width: 100%;
+
+        input {
+            width: 10.5rem;
+        }
+
+        table {    
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+            width: 100%;
+
+            th {
+                font-size: 1.25rem;
+                text-align: left;
+            }
+
+            td, th {
+                padding: .5rem;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 import { parse } from 'papaparse';
+import { Table } from './table';
 
 export class Csv {
     private constructor() {}
@@ -19,6 +20,8 @@ export class Csv {
                 head = rows[0];
                 rows.splice(0, 1);
             }});
+
+            Table.renderTable(head, rows, 1, () => {});
 
             return {
                 head,
