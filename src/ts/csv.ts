@@ -4,14 +4,15 @@ import { Table } from './table';
 export class Csv {
     private constructor() {}
 
-    static loadCsv() {
+    static loadCsv(loadCb: (head, rows) => void) {
+        let head;
+        let rows;
+
         const csvFile = (document.getElementById('csv-file') as HTMLInputElement).files[0];
         const reader = new FileReader();
         reader.readAsText(csvFile);
 
         reader.onload = e => {
-            let head;
-            let rows;
 
             let csv = e.target.result as string;
 
@@ -21,12 +22,7 @@ export class Csv {
                 rows.splice(0, 1);
             }});
 
-            Table.renderTable(head, rows, 1, () => {});
-
-            return {
-                head,
-                rows
-            };
+            loadCb(head, rows);
         };
     }
 }

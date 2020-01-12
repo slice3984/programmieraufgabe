@@ -1,3 +1,8 @@
+import { App } from './app';
 import { Csv } from './csv';
 
-document.getElementById('csv-file').addEventListener('change', Csv.loadCsv);
+const app = new App();
+
+document.getElementById('csv-file').addEventListener('change', () => {
+    Csv.loadCsv((head, rows) => app.setTable(head, rows));
+});

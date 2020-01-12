@@ -1,22 +1,16 @@
 
 export class Table {
     private static contentClass = '.edit-area__content';
-    private static resultsPerPage = 10;
+    private static resultsPerPage = 15;
 
     private constructor() {}
 
     static renderTable(head: string[],
                        rows: string[][],
                        page: number,
-                       editCb: () => void) {
+                       editCb: (index: number, indexCell: number, e: string) => void) {
         const contentEl = document.querySelector(this.contentClass) as HTMLDivElement;
-
-        let startIndex = page * this.resultsPerPage;
-        let endIndex = (page + 1) * this.resultsPerPage;
-
-        // Keep the dom refs
-        
-
+        contentEl.innerHTML = '';
         const tableEl = document.createElement('table');
         
         // Table head
@@ -31,10 +25,11 @@ export class Table {
         tableEl.append(tableHeadEl);
 
         // Table content
+        let startIndex = (page) * this.resultsPerPage;
+        let endIndex = (page + 1) * this.resultsPerPage;
         for (let i = startIndex; i < endIndex; i++) {
             const tableRow = document.createElement('tr');
-            console.log(i)
-            rows[i].forEach(val => {
+            rows[i].forEach((val, index) => {
                 const tableCell = document.createElement('td');
                 const inputEl = document.createElement('input');
                 inputEl.setAttribute('type', 'text');
@@ -42,17 +37,11 @@ export class Table {
                 inputEl.className = 'in';
                 tableCell.append(inputEl);
                 tableRow.append(tableCell);
-                inputEl.addEventListener('input', this.editHandler.bind(this, i));
+                inputEl.addEventListener('input', e => editCb(i, index, (e.target as HTMLInputElement).value));
             });
 
             tableEl.append(tableRow);
         }
         contentEl.append(tableEl);
-    }
-
-    
-
-    private static editHandler(arrIndex) {
-        console.log(arrIndex);
     }
 }
