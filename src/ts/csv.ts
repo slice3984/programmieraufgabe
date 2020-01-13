@@ -1,4 +1,4 @@
-import { parse } from 'papaparse';
+import { parse, unparse } from 'papaparse';
 import { Table } from './table';
 
 export class Csv {
@@ -24,5 +24,17 @@ export class Csv {
 
             loadCb(head, rows);
         };
+    }
+
+    static saveCsv(head: string[], rows: string[][]) {
+        const tmpArr = [...rows];
+        tmpArr.unshift([...head]);
+        const csvData = new Blob([unparse(tmpArr, {delimiter: ';'})], {type: 'text/csv;charset=utf-8;'});
+
+        const csvUrl = window.URL.createObjectURL(csvData);
+        const tmpLink = document.createElement('a');
+        tmpLink.href = csvUrl;
+        tmpLink.setAttribute('download', 'export.csv');
+        tmpLink.click();
     }
 }

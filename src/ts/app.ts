@@ -1,4 +1,5 @@
 import { Table } from "./table";
+import { Csv } from "./csv";
 
 export class App {
     private head: string[];
@@ -15,6 +16,8 @@ export class App {
     private nextH1El: HTMLHeadingElement;
 
     private searchBoxEl: HTMLInputElement;
+
+    private exportBtnEl: HTMLLinkElement;
 
     constructor() {
         this.prevBtnEl = document.getElementById('prev') as HTMLLinkElement;
@@ -46,6 +49,13 @@ export class App {
             this.prevPages = [];
             this.updatePage();
         })
+
+        this.exportBtnEl = document.getElementById('export') as HTMLLinkElement;
+        this.exportBtnEl.addEventListener('click', e => {
+            if (this.rows) {
+                Csv.saveCsv(this.head, this.rows);
+            }
+        });
         
         this.updatePage();
     }
