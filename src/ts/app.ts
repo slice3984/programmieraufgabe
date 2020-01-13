@@ -1,5 +1,11 @@
 import { Table } from "./table";
 import { Csv } from "./csv";
+import { BarChart } from "./chart";
+
+export type productCategory = {
+    name: string;
+    amount: number;
+}
 
 export class App {
     private head: string[];
@@ -8,6 +14,8 @@ export class App {
     private nextPageIndex = 0;
     private prevPages: number[] = [];
     private searchQuery: string = '';
+    private categories: productCategory[];
+    private chart: BarChart;
 
     private prevBtnEl: HTMLLinkElement;
     private prevH1El: HTMLHeadingElement;
@@ -56,7 +64,6 @@ export class App {
                 Csv.saveCsv(this.head, this.rows);
             }
         });
-        
         this.updatePage();
     }
 
@@ -76,6 +83,9 @@ export class App {
         this.head = head;
         this.rows = rows;
         this.updatePage();
+        this.getCategories();
+        this.chart = new BarChart(this.categories);
+        this.chart.drawChart();
     }
 
     handlePageSwitch() {
@@ -107,5 +117,33 @@ export class App {
 
         this.nextPageIndex = Table.renderTable(this.head, this.rows, this.currPageIndex, this.validateQuery.bind(this), this.handleEdit.bind(this));
         this.handlePageSwitch();
+    }
+
+    getCategories() {
+        this.categories = [];
+
+        this.rows.forEach(row => {
+            const cat = row[6]; // 6 = index of the category col
+
+            if (!cat || cat == '') {
+                return;
+            }
+
+            const index = this.categories.findIndex(c => c.name.trim().toLocaleLowerCase() 
+                                                        == cat.trim().toLocaleLowerCase());
+
+            if (index < 0) { // Not found
+                this.categories.push({
+                    name: cat,
+                    amount: 1
+                });
+            } else {
+                this.categories[index].amount++;
+            }
+        });
+
+        this.categories.sort((a, b) => a.amount - b.amount);
+
+        console.log(this.categories);
     }
 }
