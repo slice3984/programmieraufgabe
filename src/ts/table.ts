@@ -3,12 +3,11 @@ export class Table {
     private static contentClass = '.edit-area__content';
     static resultsPerPage = 15;
 
-    private constructor() {}
-
     static renderTable(head: string[],
                        rows: string[][],
-                       page: number,
-                       editCb: (index: number, indexCell: number, e: string) => void) {
+                       pageIndex: number,
+                       validateCb: (row: string[]) => boolean,
+                       editCb: (index: number, indexCell: number, e: string) => void): number {
         const contentEl = document.querySelector(this.contentClass) as HTMLDivElement;
         contentEl.innerHTML = '';
         const tableEl = document.createElement('table');
@@ -25,23 +24,36 @@ export class Table {
         tableEl.append(tableHeadEl);
 
         // Table content
-        let startIndex = (page) * this.resultsPerPage;
-        let endIndex = (page + 1) * this.resultsPerPage;
-        for (let i = startIndex; i < endIndex; i++) {
-            const tableRow = document.createElement('tr');
-            rows[i].forEach((val, index) => {
-                const tableCell = document.createElement('td');
-                const inputEl = document.createElement('input');
-                inputEl.setAttribute('type', 'text');
-                inputEl.value = val;
-                inputEl.className = 'in';
-                tableCell.append(inputEl);
-                tableRow.append(tableCell);
-                inputEl.addEventListener('input', e => editCb(i, index, (e.target as HTMLInputElement).value));
-            });
+        let startIndex = pageIndex;
+        let numRows = 0;
+        let endRow = 0;
+        for (let row = startIndex; numRows < this.resultsPerPage; row++) {
+            endRow = row;
+            if (row >= rows.length) {
+                break;
+            }
 
-            tableEl.append(tableRow);
+            if (validateCb(rows[row])) {
+                numRows++;
+                
+                const tableRow = document.createElement('tr');
+                rows[row].forEach((val, col) => {
+                    const tableCell = document.createElement('td');
+                    const inputEl = document.createElement('input');
+                    inputEl.setAttribute('type', 'text');
+                    inputEl.value = val;
+                    inputEl.className = 'in';
+                    tableCell.append(inputEl);
+                    tableRow.append(tableCell);
+                    inputEl.addEventListener('input', e => editCb(row, col, (e.target as HTMLInputElement).value));
+                });
+
+                tableEl.append(tableRow);
+            }
         }
+        let endIndex = endRow + 1;
         contentEl.append(tableEl);
+
+        return endIndex;
     }
 }

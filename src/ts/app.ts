@@ -3,14 +3,18 @@ import { Table } from "./table";
 export class App {
     private head: string[];
     private rows: string[][];
-    private currPage = 0;
-    private productsLeft: number;
+    private currPageIndex = 0;
+    private nextPageIndex = 0;
+    private prevPages: number[] = [];
+    private searchQuery: string = '';
 
     private prevBtnEl: HTMLLinkElement;
     private prevH1El: HTMLHeadingElement;
 
     private nextBtnEl: HTMLLinkElement;
     private nextH1El: HTMLHeadingElement;
+
+    private searchBoxEl: HTMLInputElement;
 
     constructor() {
         this.prevBtnEl = document.getElementById('prev') as HTMLLinkElement;
@@ -19,12 +23,9 @@ export class App {
         this.prevBtnEl.addEventListener('click', e => {
             e.preventDefault();
 
-            if (this.currPage > 0) {
-                this.currPage--;
-                this.handlePageSwitch();
-            } else {
-                this.handlePageSwitch();
-            }
+            this.currPageIndex = this.prevPages.pop();
+            this.nextPageIndex = this.currPageIndex;
+            this.updatePage();
         });
 
         this.nextBtnEl = document.getElementById('next') as HTMLLinkElement;
@@ -33,25 +34,38 @@ export class App {
         this.nextBtnEl.addEventListener('click', e => {
             e.preventDefault();
 
-            if (this.productsLeft) {
-                this.currPage++;
-                this.handlePageSwitch();
-            }
+            this.prevPages.push(this.currPageIndex);
+            this.currPageIndex = this.nextPageIndex;
+            this.updatePage();
         });
+
+        this.searchBoxEl = document.getElementById('search') as HTMLInputElement;
+        this.searchBoxEl.addEventListener('input', e => {
+            this.searchQuery = (e.target as HTMLInputElement).value;
+            this.currPageIndex = 0;
+            this.prevPages = [];
+            this.updatePage();
+        })
         
-        this.handlePageSwitch();
+        this.updatePage();
+    }
+
+    validateQuery( row: string[] ): boolean {
+        if (this.searchQuery == '') {
+            return true;
+        }
+        return row.some(col => col.toLocaleLowerCase().includes(this.searchQuery.toLocaleLowerCase()));
     }
 
     handleEdit(index: number, indexCell: number, value: string) {
+        console.log(index, indexCell, value);
         this.rows[index][indexCell] = value;
     }
 
     setTable(head: string[], rows: string[][]) {
         this.head = head;
         this.rows = rows;
-        this.productsLeft = this.rows.length - (this.currPage * Table.resultsPerPage);
         this.updatePage();
-        this.handlePageSwitch();
     }
 
     handlePageSwitch() {
@@ -59,27 +73,29 @@ export class App {
             return;
         }
 
-        const tmpPage = this.currPage + 1;
-
-        if (this.currPage < this.productsLeft) {
+        if (this.nextPageIndex < this.rows.length) {
             this.nextBtnEl.classList.remove('hide')
-            this.nextH1El.textContent = '' + (tmpPage + 1);
+            this.nextH1El.textContent = '' + (this.prevPages.length + 2);
+        } else {
+            this.nextBtnEl.classList.add('hide');
+            this.nextH1El.textContent = '';
         }
 
-        if (this.currPage > 0) {
+        if (this.currPageIndex > 0) {
             this.prevBtnEl.classList.remove('hide');
-            this.prevH1El.textContent = '' + (tmpPage - 1);
-        }
-
-        if (!this.currPage) {
+            this.prevH1El.textContent = '' + (this.prevPages.length);
+        } else {
             this.prevBtnEl.classList.add('hide');
             this.prevH1El.textContent = '';
         }
-
-        this.updatePage();
     }
 
     updatePage() {
-        Table.renderTable(this.head, this.rows, this.currPage, this.handleEdit.bind(this));
+        if (!this.rows) {
+            return;
+        }
+
+        this.nextPageIndex = Table.renderTable(this.head, this.rows, this.currPageIndex, this.validateQuery.bind(this), this.handleEdit.bind(this));
+        this.handlePageSwitch();
     }
 }
