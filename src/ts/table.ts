@@ -1,4 +1,3 @@
-
 export class Table {
     private static contentClass = '.edit-area__content';
     static resultsPerPage = 15;

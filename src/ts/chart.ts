@@ -64,7 +64,6 @@ export class BarChart {
 
     private clearValues() {
         this.barXPositions = [];
-
     }
 
     private drawLegend(e: MouseEvent) {
@@ -79,6 +78,5 @@ export class BarChart {
 
         this.prevBar = index;
         this.drawChart();
-
     }
 }

@@ -9,18 +9,18 @@
     <title>Programmieraufgabe</title>
 </head>
 <body>
-    <header class="header">
-        <input type="file" id="csv-file">
-        <label for="csv-file" class="btn">CSV Öffnen</label>
-    </header>
     <main class="main">
+        <div class="select-csv">
+            <input type="file" id="csv-file">
+            <label for="csv-file" class="btn">CSV Öffnen</label>
+        </div>
         <div class="edit-area">
             <div class="edit-area__menu">
                 <div class="page">
                     <h1 id="prev-page"></h1>
                     <a href="" class="btn hide" id="prev">&larr;</a>
                 </div>
-                <div class="">
+                <div class="display-none" id="search">
                     <label for="search">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" class="icon-search" width="32" height="32" viewBox="0 0 32 32">
                             <title>search</title>
@@ -36,12 +36,12 @@
                 </div>
             </div>
             <div class="edit-area__content">
-
             </div>
         </div>
         <div class="chart">
             <canvas class="chart__canvas" id="chart"></canvas>
         </div>
     </main>
+    
 </body>
 </html>

@@ -1,5 +1,4 @@
 import { parse, unparse } from 'papaparse';
-import { Table } from './table';
 
 export class Csv {
     private constructor() {}
@@ -13,7 +12,6 @@ export class Csv {
         reader.readAsText(csvFile);
 
         reader.onload = e => {
-
             let csv = e.target.result as string;
 
             parse(csv, {complete: res => {

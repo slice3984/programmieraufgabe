@@ -64,6 +64,7 @@ export class App {
                 Csv.saveCsv(this.head, this.rows);
             }
         });
+
         this.updatePage();
     }
 
@@ -71,6 +72,7 @@ export class App {
         if (this.searchQuery == '') {
             return true;
         }
+
         return row.some(col => col.toLocaleLowerCase().includes(this.searchQuery.toLocaleLowerCase()));
     }
 
@@ -80,6 +82,12 @@ export class App {
     }
 
     setTable(head: string[], rows: string[][]) {
+        // Hide open csv button
+        (document.querySelector('.select-csv') as HTMLDivElement).style.display = 'none';
+
+        // Display search
+        (document.getElementById('search') as HTMLDivElement).classList.remove('display-none');
+
         this.head = head;
         this.rows = rows;
         this.updatePage();
@@ -143,7 +151,5 @@ export class App {
         });
 
         this.categories.sort((a, b) => a.amount - b.amount);
-
-        console.log(this.categories);
     }
 }
